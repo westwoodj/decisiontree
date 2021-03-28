@@ -18,24 +18,29 @@ Show how the behavior of decision trees can differ in different domains.
 from C4point5 import *
 from shapes import *
 from sklearn.model_selection import train_test_split
-
+import csv
+from itertools import chain
 a = Mtx(1000)
 a.setShape("circle")
 data = a.returnData()
-data = data.reshape((data.shape[0] * data.shape[1]), data.shape[2])
-
-#print(data[0][2])
-y = np.zeros((len(data), 1))
+print(data[0][0])
+y = []
 for i in range(len(data)):
-    y[i] = data[i][2]
+    for j in range(len(data[0])):
+        y.append(data[i][j][2])
+#data = data.reshape((data.shape[0] * data.shape[1]), data.shape[2])
+newdata = list(chain.from_iterable(data))
+print(y[0])
+print(len(newdata), len(y))
 #data.reshape(1000, 1000 , 3)
 #y = y.reshape(1000,1000,1)
 #print(y.shape)
-X_train, X_test, y_train, y_test = train_test_split(data, y, test_size=0.25, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(newdata, y, test_size=0.25, random_state=42)
 remappedTest = np.zeros((1000, 1000))
 remappedTrain = np.zeros((1000, 1000))
 #print(X_test[0])
 #print(X_train.shape)
+'''
 for x in range(len(X_test)):
     if X_test[x][2] == 1:
         remappedTest[int(X_test[x][0])][int(X_test[x][1])] = 1
@@ -46,10 +51,26 @@ for x in range(len(X_train)):
         remappedTrain[int(X_train[x][0])][int(X_train[x][1])] = 1
     else:
         remappedTrain[int(X_train[x][0])][int(X_train[x][1])] = 2
+    '''
+with open("testdata.csv", "w", newline='' ) as fp:
+    writer = csv.writer(fp, delimiter=',', quoting=csv.QUOTE_MINIMAL)
+    writer.writerow(['X_coord', 'Y_coord', 'Decision'])
+    for x in range(len(X_test)):
+        writer.writerow(X_test[x])
 
-plt.matshow(remappedTrain)
-plt.matshow(remappedTest)
-plt.show()
+with open("traindata.csv", "w", newline='' ) as fp:
+    writer = csv.writer(fp, delimiter=',', quoting=csv.QUOTE_MINIMAL)
+    writer.writerow(['X_coord', 'Y_coord', 'Decision'])
+
+    for x in range(len(X_train)):
+        writer.writerow(X_train[x])
+
+
+
+
+#plt.matshow(remappedTrain)
+#plt.matshow(remappedTest)
+#plt.show()
 '''
 a_test, a_train = train_test_split(a, test_size=0.25, random_state=42)
 #a.showMat()
@@ -58,10 +79,3 @@ plt.matshow(a_train)
 plt.show()
 '''
 
-'''
-c1 = C45("../data/iris/iris.data", "../data/iris/iris.names")
-c1.fetchData()
-c1.preprocessData()
-c1.generateTree()
-c1.printTree()
-'''

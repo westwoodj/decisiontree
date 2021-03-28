@@ -6,13 +6,15 @@ from matplotlib import pyplot as plt
 class Mtx:
     def __init__(self, size):
         self.size = size
-        self.arr = np.zeros((size, size))
+        self.arr = [['neg']*size] * size
         self.x = 0
         self.y = 0
         self.maxX = size-1
         self.maxY = size-1
+        self.shape = ''
 
     def setShape(self, shape):
+        self.shape = shape
         if shape == 'square':
             self.y, self.x = self.size / 4, self.size / 4
             self.maxY, self.maxX = self.y + self.size/2, self.x + self.size/2
@@ -20,7 +22,7 @@ class Mtx:
                 for y in range(self.size):
                     if x >= self.x and x <= self.maxX:
                         if y >= self.y and y <= self.maxY:
-                            self.arr[x][y] = 1
+                            self.arr[x][y] = 'pos'
 
         elif shape == 'triangle':
             self.y, self.x = self.size / 4, self.size / 4
@@ -29,14 +31,14 @@ class Mtx:
                 for y in range(self.size):
                     if x >= self.x and x <= self.maxX:
                         if y >= x+1 and y <= self.maxX:
-                            self.arr[x][y] = 1
+                            self.arr[x][y] = 'pos'
         elif shape == 'circle':
             self.y, self.x = self.size / 2, self.size / 2
             self.radius = self.size / 3
             for x in range(self.size):
                 for y in range(self.size):
                     if (x-self.x)**2 + (y-self.y)**2 <= self.radius**2:
-                        self.arr[x][y] = 1
+                        self.arr[x][y] = 'pos'
         elif shape == 'crazy':
             pass
 
@@ -45,7 +47,7 @@ class Mtx:
         plt.show()
 
     def returnData(self):
-        data = np.zeros((self.size, self.size, 3))
+        data = [[0]*self.size]*self.size
         for x in range(self.size):
             for y in range(self.size):
                 data[x][y] = [x, y, self.arr[x][y]]
@@ -54,6 +56,7 @@ class Mtx:
         #print(data.shape)
         #data.transpose(2, 0, 1).reshape(3, -1)
         return data
+
 
 
 
