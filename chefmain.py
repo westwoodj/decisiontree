@@ -14,13 +14,14 @@ predcopy = pred.copy()
 accuracyCopy = pred.copy()
 for index, instance in pred.iterrows():
     prediction = chef.predict(model, instance)
-    predcopy.iloc[index]['Decision'] = prediction
+    predcopy.iat[index, 2] = prediction
     actual = instance['Decision']
 
     if actual == prediction:
-        accuracyCopy.iloc[index]['Decision'] = 'Correct'
+        #print(accuracyCopy.iloc[index]['Decision'])
+        accuracyCopy.iat[index, 2] = 'Correct'
     else:
-        accuracyCopy.iloc[index]['Decision'] = 'False'
+        accuracyCopy.iat[index, 2] = 'False'
         #print("*", end='')
     #print(actual, ' - ', prediction)
 
@@ -28,10 +29,12 @@ for index, instance in pred.iterrows():
 
 remappedTest = np.zeros((1000, 1000))
 remappedTrain = np.zeros((1000, 1000))
-
+remappedAcc = np.zeros((1000, 1000))
 X_test = df.values
 X_train = predcopy.values
 Acc_Val = accuracyCopy.values
+print(X_test[0][2])
+print(Acc_Val[0][2])
 for x in range(len(X_test)):
     if X_test[x][2] == 'pos':
         remappedTest[int(X_test[x][0])][int(X_test[x][1])] = 1
@@ -44,11 +47,12 @@ for x in range(len(X_train)):
         remappedTrain[int(X_train[x][0])][int(X_train[x][1])] = 2
 for x in range(len(Acc_Val)):
     if Acc_Val[x][2] == 'Correct':
-        remappedTrain[int(X_train[x][0])][int(X_train[x][1])] = 1
+        remappedAcc[int(Acc_Val[x][0])][int(Acc_Val[x][1])] = 1
     else:
-        remappedTrain[int(X_train[x][0])][int(X_train[x][1])] = 2
+        remappedAcc[int(Acc_Val[x][0])][int(Acc_Val[x][1])] = 2
 
 
 plt.matshow(remappedTrain)
 plt.matshow(remappedTest)
+plt.matshow(remappedAcc)
 plt.show()

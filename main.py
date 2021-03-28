@@ -28,17 +28,17 @@ y = []
 for i in range(len(data)):
     for j in range(len(data[0])):
         y.append(data[i][j][2])
-#data = data.reshape((data.shape[0] * data.shape[1]), data.shape[2])
-newdata = list(chain.from_iterable(data))
+newdata = data.reshape((data.shape[0] * data.shape[1]))
+#newdata = list(chain.from_iterable(data))
 print(y[0])
 print(len(newdata), len(y))
 #data.reshape(1000, 1000 , 3)
 #y = y.reshape(1000,1000,1)
 #print(y.shape)
 X_train, X_test, y_train, y_test = train_test_split(newdata, y, test_size=0.25, random_state=42)
-remappedTest = np.zeros((1000, 1000))
-remappedTrain = np.zeros((1000, 1000))
-#print(X_test[0])
+#remappedTest = np.zeros((1000, 1000))
+#remappedTrain = np.zeros((1000, 1000))
+print(X_train)
 #print(X_train.shape)
 '''
 for x in range(len(X_test)):

@@ -47,7 +47,7 @@ class Mtx:
         plt.show()
 
     def returnData(self):
-        data = [[0]*self.size]*self.size
+        data = np.empty((self.size, self.size), dtype=object)
         for x in range(self.size):
             for y in range(self.size):
                 data[x][y] = [x, y, self.arr[x][y]]
