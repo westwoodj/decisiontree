@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import pdb
-#https://github.com/barisesmer/C4.5
+#https://sefiks.com/2018/05/13/a-step-by-step-c4-5-decision-tree-example/
 
 '''
 Create your own synthetic data with two numeric attributes with values from the unit interval, [0,1].
@@ -21,7 +21,7 @@ from sklearn.model_selection import train_test_split
 import csv
 from itertools import chain
 a = Mtx(1000)
-a.setShape("square")
+a.setShape("triangle")
 data = a.returnData()
 #print(data[0][0])
 y = []
