@@ -29,9 +29,12 @@ for index, instance in pred.iterrows():
 
 remappedTest = np.zeros((1000, 1000))
 remappedTrain = np.zeros((1000, 1000))
+remappedPrediction = np.zeros((1000, 1000))
 remappedAcc = np.zeros((1000, 1000))
+
 X_test = df.values
-X_train = predcopy.values
+X_train = pred.values
+X_pred = predcopy.values
 Acc_Val = accuracyCopy.values
 #print(X_test[0][2])
 #print(Acc_Val[0][2])
@@ -39,22 +42,27 @@ Acc_Val = accuracyCopy.values
 for x in range(len(X_test)):
     if X_test[x][2] == 'pos':
         #print(X_test[x][0], X_test[x][1])
-        remappedTest[int(X_test[x][0])][int(X_test[x][1])] = 1
-    else:
         remappedTest[int(X_test[x][0])][int(X_test[x][1])] = 2
+    else:
+        remappedTest[int(X_test[x][0])][int(X_test[x][1])] = 1
 for x in range(len(X_train)):
     if X_train[x][2] == 'pos':
-        remappedTrain[int(X_train[x][0])][int(X_train[x][1])] = 1
-    else:
         remappedTrain[int(X_train[x][0])][int(X_train[x][1])] = 2
+    else:
+        remappedTrain[int(X_train[x][0])][int(X_train[x][1])] = 1
+    if X_pred[x][2] == 'pos':
+        remappedPrediction[int(X_pred[x][0])][int(X_pred[x][1])] = 2
+    else:
+        remappedPrediction[int(X_pred[x][0])][int(X_pred[x][1])] = 1
 for x in range(len(Acc_Val)):
     if Acc_Val[x][2] == 'Correct':
-        remappedAcc[int(Acc_Val[x][0])][int(Acc_Val[x][1])] = 1
-    else:
         remappedAcc[int(Acc_Val[x][0])][int(Acc_Val[x][1])] = 2
+    else:
+        remappedAcc[int(Acc_Val[x][0])][int(Acc_Val[x][1])] = 1
 
 
-plt.matshow(remappedTrain)
-plt.matshow(remappedTest)
-plt.matshow(remappedAcc)
+plt.matshow(remappedTest, cmap='Greys')
+plt.matshow(remappedTrain, cmap='Greys')
+plt.matshow(remappedPrediction, cmap='Greys')
+plt.matshow(remappedAcc, cmap='Greys')
 plt.show()

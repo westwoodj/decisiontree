@@ -21,26 +21,27 @@ from sklearn.model_selection import train_test_split
 import csv
 from itertools import chain
 a = Mtx(1000)
-a.setShape("circle")
+a.setShape("square")
 data = a.returnData()
-print(data[0][0])
+#print(data[0][0])
 y = []
 for i in range(len(data)):
     for j in range(len(data[0])):
         y.append(data[i][j][2])
 newdata = data.reshape((data.shape[0] * data.shape[1]))
 #newdata = list(chain.from_iterable(data))
-print(y[0])
-print(len(newdata), len(y))
+#print(y[0])
+#print(len(newdata), len(y))
 #data.reshape(1000, 1000 , 3)
 #y = y.reshape(1000,1000,1)
 #print(y.shape)
 X_train, X_test, y_train, y_test = train_test_split(newdata, y, test_size=0.25, random_state=42)
-remappedTest = np.zeros((1000, 1000))
-remappedTrain = np.zeros((1000, 1000))
+#remappedTest = np.zeros((1000, 1000))
+#remappedTrain = np.zeros((1000, 1000))
 #print(X_train)
 #print(X_train.shape)
 #print(X_test[x][2])
+'''
 for x in range(len(X_test)):
     print(X_test[x][2])
     if X_test[x][2] == 'pos':
@@ -52,7 +53,7 @@ for x in range(len(X_train)):
         remappedTrain[int(X_train[x][0])][int(X_train[x][1])] = 1
     else:
         remappedTrain[int(X_train[x][0])][int(X_train[x][1])] = 2
-
+'''
 with open("testdata.csv", "w", newline='' ) as fp:
     writer = csv.writer(fp, delimiter=',', quoting=csv.QUOTE_MINIMAL)
     writer.writerow(['X_coord', 'Y_coord', 'Decision'])
@@ -67,11 +68,12 @@ with open("traindata.csv", "w", newline='' ) as fp:
         writer.writerow(X_train[x])
 
 
-
+'''
 
 plt.matshow(remappedTrain)
 plt.matshow(remappedTest)
 plt.show()
+'''
 '''
 a_test, a_train = train_test_split(a, test_size=0.25, random_state=42)
 #a.showMat()
