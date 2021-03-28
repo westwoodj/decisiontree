@@ -14,14 +14,14 @@ predcopy = pred.copy()
 accuracyCopy = pred.copy()
 for index, instance in pred.iterrows():
     prediction = chef.predict(model, instance)
-    predcopy.iat[index, 2] = prediction
+    predcopy.at[index, 2] = prediction
     actual = instance['Decision']
 
     if actual == prediction:
         #print(accuracyCopy.iloc[index]['Decision'])
-        accuracyCopy.iat[index, 2] = 'Correct'
+        accuracyCopy.at[index, 2] = 'Correct'
     else:
-        accuracyCopy.iat[index, 2] = 'False'
+        accuracyCopy.at[index, 2] = 'False'
         #print("*", end='')
     #print(actual, ' - ', prediction)
 
@@ -33,10 +33,12 @@ remappedAcc = np.zeros((1000, 1000))
 X_test = df.values
 X_train = predcopy.values
 Acc_Val = accuracyCopy.values
-print(X_test[0][2])
-print(Acc_Val[0][2])
+#print(X_test[0][2])
+#print(Acc_Val[0][2])
+#print(X_test[x][0],X_test[x][1] )
 for x in range(len(X_test)):
     if X_test[x][2] == 'pos':
+        #print(X_test[x][0], X_test[x][1])
         remappedTest[int(X_test[x][0])][int(X_test[x][1])] = 1
     else:
         remappedTest[int(X_test[x][0])][int(X_test[x][1])] = 2

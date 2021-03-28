@@ -36,22 +36,23 @@ print(len(newdata), len(y))
 #y = y.reshape(1000,1000,1)
 #print(y.shape)
 X_train, X_test, y_train, y_test = train_test_split(newdata, y, test_size=0.25, random_state=42)
-#remappedTest = np.zeros((1000, 1000))
-#remappedTrain = np.zeros((1000, 1000))
-print(X_train)
+remappedTest = np.zeros((1000, 1000))
+remappedTrain = np.zeros((1000, 1000))
+#print(X_train)
 #print(X_train.shape)
-'''
+#print(X_test[x][2])
 for x in range(len(X_test)):
-    if X_test[x][2] == 1:
+    print(X_test[x][2])
+    if X_test[x][2] == 'pos':
         remappedTest[int(X_test[x][0])][int(X_test[x][1])] = 1
     else:
         remappedTest[int(X_test[x][0])][int(X_test[x][1])] = 2
 for x in range(len(X_train)):
-    if X_train[x][2] == 1:
+    if X_train[x][2] == 'pos':
         remappedTrain[int(X_train[x][0])][int(X_train[x][1])] = 1
     else:
         remappedTrain[int(X_train[x][0])][int(X_train[x][1])] = 2
-    '''
+
 with open("testdata.csv", "w", newline='' ) as fp:
     writer = csv.writer(fp, delimiter=',', quoting=csv.QUOTE_MINIMAL)
     writer.writerow(['X_coord', 'Y_coord', 'Decision'])
@@ -68,9 +69,9 @@ with open("traindata.csv", "w", newline='' ) as fp:
 
 
 
-#plt.matshow(remappedTrain)
-#plt.matshow(remappedTest)
-#plt.show()
+plt.matshow(remappedTrain)
+plt.matshow(remappedTest)
+plt.show()
 '''
 a_test, a_train = train_test_split(a, test_size=0.25, random_state=42)
 #a.showMat()

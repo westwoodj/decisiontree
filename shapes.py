@@ -6,7 +6,7 @@ from matplotlib import pyplot as plt
 class Mtx:
     def __init__(self, size):
         self.size = size
-        self.arr = [['neg']*size] * size
+        self.arr = np.empty((self.size, self.size), dtype=object)
         self.x = 0
         self.y = 0
         self.maxX = size-1
@@ -23,6 +23,10 @@ class Mtx:
                     if x >= self.x and x <= self.maxX:
                         if y >= self.y and y <= self.maxY:
                             self.arr[x][y] = 'pos'
+                        else:
+                            self.arr[x][y] = 'neg'
+                    else:
+                        self.arr[x][y] = 'neg'
 
         elif shape == 'triangle':
             self.y, self.x = self.size / 4, self.size / 4
@@ -32,6 +36,11 @@ class Mtx:
                     if x >= self.x and x <= self.maxX:
                         if y >= x+1 and y <= self.maxX:
                             self.arr[x][y] = 'pos'
+                        else:
+                            self.arr[x][y] = 'neg'
+                    else:
+                        self.arr[x][y] = 'neg'
+
         elif shape == 'circle':
             self.y, self.x = self.size / 2, self.size / 2
             self.radius = self.size / 3
@@ -39,6 +48,8 @@ class Mtx:
                 for y in range(self.size):
                     if (x-self.x)**2 + (y-self.y)**2 <= self.radius**2:
                         self.arr[x][y] = 'pos'
+                    else:
+                        self.arr[x][y] = 'neg'
         elif shape == 'crazy':
             pass
 

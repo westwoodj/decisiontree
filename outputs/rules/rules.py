@@ -1,18 +1,18 @@
 def findDecision(obj): #obj[0]: X_coord, obj[1]: Y_coord
-   # {"feature": "Y_coord", "instances": 750000, "metric_value": 0.9179, "depth": 1}
-   if obj[1]>210.95714167321046:
-      # {"feature": "X_coord", "instances": 591796, "metric_value": 0.7423, "depth": 2}
-      if obj[0]>0:
+   # {"feature": "X_coord", "instances": 750000, "metric_value": 0.9335, "depth": 1}
+   if obj[0]>210.84405368575352:
+      # {"feature": "Y_coord", "instances": 591852, "metric_value": 0.986, "depth": 2}
+      if obj[1]>210.90762271815464:
          return 'pos'
-      elif obj[0]<=0:
-         return 'pos'
-      else:
-         return 'pos'
-   elif obj[1]<=210.95714167321046:
-      # {"feature": "X_coord", "instances": 158204, "metric_value": 0.7393, "depth": 2}
-      if obj[0]>0:
+      elif obj[1]<=210.90762271815464:
          return 'neg'
-      elif obj[0]<=0:
+      else:
+         return 'neg'
+   elif obj[0]<=210.84405368575352:
+      # {"feature": "Y_coord", "instances": 158148, "metric_value": 0.27, "depth": 2}
+      if obj[1]>211.14267549863615:
+         return 'neg'
+      elif obj[1]<=211.14267549863615:
          return 'neg'
       else:
          return 'neg'
