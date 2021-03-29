@@ -55,7 +55,7 @@ class Mtx:
 
         elif shape == 'circle':
             self.y, self.x = self.size / 2, self.size / 2
-            self.radius = self.size / 3
+            self.radius = self.size / 2.5
             for x in range(self.size):
                 for y in range(self.size):
                     if (x-self.x)**2 + (y-self.y)**2 <= self.radius**2:
