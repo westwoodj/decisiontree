@@ -21,7 +21,7 @@ from sklearn.model_selection import train_test_split
 import csv
 from itertools import chain
 a = Mtx(1000)
-a.setShape("triangle")
+a.setShape("circle")
 data = a.returnData()
 #print(data[0][0])
 y = []

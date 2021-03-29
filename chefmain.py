@@ -16,12 +16,12 @@ for index, instance in pred.iterrows():
     prediction = chef.predict(model, instance)
     predcopy.at[index, 2] = prediction
     actual = instance['Decision']
-
     if actual == prediction:
         #print(accuracyCopy.iloc[index]['Decision'])
-        accuracyCopy.at[index, 2] = 'Correct'
+        accuracyCopy.iat[index, 2] = 'Correct'
     else:
-        accuracyCopy.at[index, 2] = 'False'
+        print(actual, ' - ', prediction)
+        accuracyCopy.iat[index, 2] = 'False'
         #print("*", end='')
     #print(actual, ' - ', prediction)
 
@@ -50,6 +50,7 @@ for x in range(len(X_train)):
         remappedTrain[int(X_train[x][0])][int(X_train[x][1])] = 2
     else:
         remappedTrain[int(X_train[x][0])][int(X_train[x][1])] = 1
+for x in range(len(X_pred)):
     if X_pred[x][2] == 'pos':
         remappedPrediction[int(X_pred[x][0])][int(X_pred[x][1])] = 2
     else:
