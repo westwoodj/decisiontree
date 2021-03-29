@@ -59,9 +59,14 @@ class Mtx:
 
     def returnData(self):
         data = np.empty((self.size, self.size), dtype=object)
-        for x in range(self.size):
-            for y in range(self.size):
-                data[x][y] = [x, y, self.arr[x][y]]
+        if self.shape != 'circle':
+            for x in range(self.size):
+                for y in range(self.size):
+                    data[x][y] = [x, y, self.arr[x][y]]
+        else:
+            for x in range(self.size):
+                for y in range(self.size):
+                    data[x][y] = [x, y,  self.arr[x][y]] # (x-self.x)**2 + (y-self.y)**2,self.radius**2,
         #print(data.shape)
         #data = np.reshape(data, (self.size+self.size, 3, -1))
         #print(data.shape)
@@ -73,5 +78,5 @@ class Mtx:
 
 
 #a = Mtx(1000)
-#a.setShape("circle")
+#a.setShape("circle.pdf")
 #a.showMat()

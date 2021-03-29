@@ -4,7 +4,7 @@ import pdb
 
 '''
 Create your own synthetic data with two numeric attributes with values from the unit interval, [0,1].
-Determine a certain geometric figure (square, circle, ring, or preferably something more complicated);
+Determine a certain geometric figure (square, circle.pdf, ring, or preferably something more complicated);
 all examples inside this figure are labeled as positive, all examples outside this figure are labeled as negative.
 Using a subset of these examples as a training set, induce a decision tree either C4.5 from Ross Quinlan’s website or
 J48 from WEKA. Using a similar method as in Problem 2 (visualization of backprop behavior in 2-dimensional domains),
@@ -20,8 +20,9 @@ from shapes import *
 from sklearn.model_selection import train_test_split
 import csv
 from itertools import chain
-a = Mtx(1000)
-a.setShape("circle")
+a = Mtx(100)
+shape = 'circle'
+a.setShape(shape)
 data = a.returnData()
 #print(data[0][0])
 y = []
@@ -56,14 +57,19 @@ for x in range(len(X_train)):
 '''
 with open("testdata.csv", "w", newline='' ) as fp:
     writer = csv.writer(fp, delimiter=',', quoting=csv.QUOTE_MINIMAL)
+    #if shape != 'circle.pdf':
     writer.writerow(['X_coord', 'Y_coord', 'Decision'])
+    #else:
+    #   writer.writerow(['X_coord', 'Y_coord', 'rad_diff', 'rad_squared', 'Decision'])
     for x in range(len(X_test)):
         writer.writerow(X_test[x])
 
 with open("traindata.csv", "w", newline='' ) as fp:
     writer = csv.writer(fp, delimiter=',', quoting=csv.QUOTE_MINIMAL)
+    #if shape != 'circle.pdf':
     writer.writerow(['X_coord', 'Y_coord', 'Decision'])
-
+    #else:
+     #   writer.writerow(['X_coord', 'Y_coord', 'rad_diff', 'rad_squared', 'Decision'])
     for x in range(len(X_train)):
         writer.writerow(X_train[x])
 
