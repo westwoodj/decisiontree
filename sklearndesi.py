@@ -46,11 +46,77 @@ plt.show()
 y = df["Decision"]
 
 # Train
-clf = tree.DecisionTreeClassifier(criterion='entropy').fit(X, y)
+clf = tree.DecisionTreeClassifier(criterion='entropy', min_samples_split=2, min_samples_leaf=1, max_depth=None).fit(X, y)
 
-# Plot the decision boundary
-#plt.subplot(2, 3, pairidx + 1)
+# --------------------- DEFAULTS ===  min_samples_split=2, min_samples_leaf=1, max_depth=None -------------------------
 
+
+
+# --------------------------------   PRUNING DATA   --------------------------------------
+
+
+#   https://scikit-learn.org/stable/auto_examples/tree/plot_cost_complexity_pruning.html#sphx-glr-auto-examples-tree-plot-cost-complexity-pruning-py
+
+print("Tree depth - ", str(clf.get_depth()))
+print("# of leaves - ", str(clf.get_n_leaves()))
+path = clf.cost_complexity_pruning_path(X, y)
+ccp_alphas, impurities = path.ccp_alphas, path.impurities
+fig, ax = plt.subplots()
+ax.plot(ccp_alphas[:-1], impurities[:-1], marker='o', drawstyle="steps-post")
+ax.set_xlabel("effective alpha")
+ax.set_ylabel("total impurity of leaves")
+ax.set_title("Total Impurity vs effective alpha for training set")
+
+clfs = []
+for ccp_alpha in ccp_alphas:
+    clf = tree.DecisionTreeClassifier(random_state=0, ccp_alpha=ccp_alpha)
+    clf.fit(X, y)
+    clfs.append(clf)
+print("Number of nodes in the last tree is: {} with ccp_alpha: {}".format(
+      clfs[-1].tree_.node_count, ccp_alphas[-1]))
+
+clfs = clfs[:-1]
+ccp_alphas = ccp_alphas[:-1] #remove last tree and ccp
+
+
+node_counts = [clf.tree_.node_count for clf in clfs]
+depth = [clf.tree_.max_depth for clf in clfs]
+fig, ax = plt.subplots(2, 1)
+ax[0].plot(ccp_alphas, node_counts, marker='o', drawstyle="steps-post")
+ax[0].set_xlabel("alpha")
+ax[0].set_ylabel("number of nodes")
+ax[0].set_title("Number of nodes vs alpha")
+ax[1].plot(ccp_alphas, depth, marker='o', drawstyle="steps-post")
+ax[1].set_xlabel("alpha")
+ax[1].set_ylabel("depth of tree")
+ax[1].set_title("Depth vs alpha")
+fig.tight_layout()
+
+
+
+
+train_scores = [clf.score(X, y) for clf in clfs]
+test_scores = [clf.score(pred, verify) for clf in clfs]
+
+fig, ax = plt.subplots()
+ax.set_xlabel("alpha")
+ax.set_ylabel("accuracy")
+ax.set_title("Accuracy vs alpha for training and testing sets")
+ax.plot(ccp_alphas, train_scores, marker='o', label="train",
+        drawstyle="steps-post")
+ax.plot(ccp_alphas, test_scores, marker='o', label="test",
+        drawstyle="steps-post")
+ax.legend()
+
+
+
+
+
+
+
+# ------------------------ PLOT DECISION SPACE -------------------------
+'''
+plt.figure()
 Xarr = X.to_numpy()
 #print(Xarr)
 x_min, x_max = Xarr[:, 0].min() - 1, Xarr[:, 0].max() + 1
@@ -79,10 +145,7 @@ plt.ylabel('Y coordinate')
 
 # Plot the training points
 for i, color in zip(range(n_classes), plot_colors):
-    '''idx = np.where(y == i)
-    plt.scatter(Xarr[idx, 0], Xarr[idx, 1], c=color,
-                cmap=plt.cm.RdYlBu, edgecolor='black', s=15, label=i)
-                '''
+    
     idx2 = np.where(predres == i)
     plt.scatter(results[idx2, 0], results[idx2, 1], c=color,
                 cmap=plt.cm.RdYlBu, edgecolor='black', s=15, label=i)
@@ -92,54 +155,7 @@ plt.legend(loc='lower right', borderpad=0, handletextpad=0)
 plt.axis("tight")
 #plt.figure()
 '''
-remappedTest = np.zeros((100, 100))
-remappedTrain = np.zeros((100, 100))
-remappedPrediction = np.zeros((100, 100))
-remappedAcc = np.zeros((100, 100))
 
-X_test = pred.values
-X_train = df.values
-X_pred = results
-
-accuracy = np.zeros((len(results), 3))
-for ind in range(len(results)):
-    if results[ind][2] == verify[ind]:
-        accuracy[ind] = [results[ind][0], results[ind][1], 1]
-    else:
-        accuracy[ind] = [results[ind][0], results[ind][1], 0]
-
-
-
-
-for x in range(len(X_test)):
-    if X_test[x][len(X_test[0])-1] == 1:
-        #print(X_test[x][0], X_test[x][1])
-        remappedTest[int(X_test[x][0])][int(X_test[x][1])] = 2
-    else:
-        remappedTest[int(X_test[x][0])][int(X_test[x][1])] = 1
-for x in range(len(X_train)):
-    if X_train[x][len(X_train[0])-1] == 1:
-        remappedTrain[int(X_train[x][0])][int(X_train[x][1])] = 2
-    else:
-        remappedTrain[int(X_train[x][0])][int(X_train[x][1])] = 1
-for x in range(len(X_pred)):
-    if X_pred[x][len(X_pred[0])-1] == 1:
-        remappedPrediction[int(X_pred[x][0])][int(X_pred[x][1])] = 2
-    else:
-        remappedPrediction[int(X_pred[x][0])][int(X_pred[x][1])] = 1
-for x in range(len(accuracy)):
-    if accuracy[x][len(accuracy[0])-1] == 1:
-        remappedAcc[int(accuracy[x][0])][int(accuracy[x][1])] = 2
-    else:
-        remappedAcc[int(accuracy[x][0])][int(accuracy[x][1])] = 1
-
-
-plt.matshow(remappedTrain, cmap='Greys')
-plt.matshow(remappedTest, cmap='Greys')
-plt.matshow(remappedPrediction, cmap='Greys')
-plt.matshow(remappedAcc)
-plt.show()
-'''
 
 
 
