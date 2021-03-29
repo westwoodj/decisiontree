@@ -3,6 +3,18 @@ from matplotlib import pyplot as plt
 
 #lets say size is 100 for now
 
+def signForPoint(p1, p2, p3):
+    return (p1[0] - p3[0]) * (p2[1] - p3[1]) - (p2[0] - p3[0]) * (p1[1] - p3[1])
+
+def pointInTri(pt, v1, v2, v3):
+    d1 = signForPoint(pt, v1, v2)
+    d2 = signForPoint(pt, v2, v3)
+    d3 = signForPoint(pt, v3, v1)
+    has_neg = (d1 < 0) or (d2 < 0) or (d3 < 0)
+    has_pos = (d1 > 0) or (d2 > 0) or (d3 > 0)
+    return not (has_neg and has_pos)
+
+
 class Mtx:
     def __init__(self, size):
         self.size = size
@@ -29,15 +41,15 @@ class Mtx:
                         self.arr[x][y] = 'neg'
 
         elif shape == 'triangle':
-            self.y, self.x = self.size / 4, self.size / 4
-            self.maxY, self.maxX = self.y + self.size / 2, self.x + self.size / 2
+            self.p1 = [self.size/20, self.size/20]
+            self.p2 = [self.size/2, self.size - self.size/20]
+            self.p3 = [self.size - self.size/20, self.size/20]
+            #self.y, self.x = self.size / 4, self.size / 4
+            #self.maxY, self.maxX = self.y + self.size / 1.5, self.x + self.size / 1.5
             for x in range(self.size):
                 for y in range(self.size):
-                    if x >= self.x and x <= self.maxX:
-                        if y >= x+1 and y <= self.maxX:
-                            self.arr[x][y] = 'pos'
-                        else:
-                            self.arr[x][y] = 'neg'
+                    if pointInTri([x, y], self.p1, self.p2, self.p3):
+                        self.arr[x][y] = 'pos'
                     else:
                         self.arr[x][y] = 'neg'
 

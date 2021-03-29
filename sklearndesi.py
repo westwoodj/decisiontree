@@ -108,11 +108,6 @@ ax.plot(ccp_alphas, test_scores, marker='o', label="test",
 ax.legend()
 
 
-
-
-
-
-
 # ------------------------ PLOT DECISION SPACE -------------------------
 optimal_alpha = 0 # decide this off of pruning data
 clf = tree.DecisionTreeClassifier(criterion='entropy', ccp_alpha=optimal_alpha).fit(X, y)
