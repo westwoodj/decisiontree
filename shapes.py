@@ -28,8 +28,8 @@ class Mtx:
     def setShape(self, shape):
         self.shape = shape
         if shape == 'square':
-            self.y, self.x = self.size / 4, self.size / 4
-            self.maxY, self.maxX = self.y + self.size/2, self.x + self.size/2
+            self.y, self.x = self.size / 7, self.size / 7
+            self.maxY, self.maxX = self.y + self.size/1.4, self.x + self.size/1.4
             for x in range(self.size):
                 for y in range(self.size):
                     if x >= self.x and x <= self.maxX:
@@ -41,9 +41,9 @@ class Mtx:
                         self.arr[x][y] = 'neg'
 
         elif shape == 'triangle':
-            self.p1 = [self.size/20, self.size/20]
-            self.p2 = [self.size/2, self.size - self.size/20]
-            self.p3 = [self.size - self.size/20, self.size/20]
+            self.p1 = [0, 0] #self.size/20, self.size/20
+            self.p2 = [self.size/2, self.size - 1]
+            self.p3 = [self.size - 1, 0]
             #self.y, self.x = self.size / 4, self.size / 4
             #self.maxY, self.maxX = self.y + self.size / 1.5, self.x + self.size / 1.5
             for x in range(self.size):

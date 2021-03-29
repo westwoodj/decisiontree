@@ -65,6 +65,7 @@ ax.plot(ccp_alphas[:-1], impurities[:-1], marker='o', drawstyle="steps-post")
 ax.set_xlabel("effective alpha")
 ax.set_ylabel("total impurity of leaves")
 ax.set_title("Total Impurity vs effective alpha for training set")
+plt.savefig("impurity.png")
 
 clfs = []
 for ccp_alpha in ccp_alphas:
@@ -90,6 +91,7 @@ ax[1].set_xlabel("alpha")
 ax[1].set_ylabel("depth of tree")
 ax[1].set_title("Depth vs alpha")
 fig.tight_layout()
+plt.savefig("nodesdepthvsalpha.png")
 
 
 
@@ -107,6 +109,7 @@ ax.plot(ccp_alphas, test_scores, marker='o', label="test",
         drawstyle="steps-post")
 ax.legend()
 
+plt.savefig("acc_vs_alpha.png")
 
 # ------------------------ PLOT DECISION SPACE -------------------------
 optimal_alpha = 0 # decide this off of pruning data
@@ -151,14 +154,18 @@ plt.suptitle("Decision surface of decision tree")
 plt.legend(loc='lower right', borderpad=0, handletextpad=0)
 plt.axis("tight")
 #plt.figure()
+plt.savefig("decisionspace.png")
 
 
 
 
 
 
-#plt.figure()
+plt.figure()
 #clf = tree.DecisionTreeClassifier().fit(X, y)
-#tree.plot_tree(clf, filled=True)
-plt.show()
+tree.plot_tree(clf, filled=True)
+plt.savefig("tree_view.png")
 
+tree_rules = tree.export_text(clf, feature_names=['X-Coord', 'Y-Coord'])
+
+print(tree_rules)
