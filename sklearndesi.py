@@ -115,7 +115,7 @@ ax.legend()
 
 
 # ------------------------ PLOT DECISION SPACE -------------------------
-'''
+clf = tree.DecisionTreeClassifier(criterion='entropy', min_samples_split=2, min_samples_leaf=1, max_depth=None).fit(X, y)
 plt.figure()
 Xarr = X.to_numpy()
 #print(Xarr)
@@ -154,7 +154,7 @@ plt.suptitle("Decision surface of decision tree")
 plt.legend(loc='lower right', borderpad=0, handletextpad=0)
 plt.axis("tight")
 #plt.figure()
-'''
+
 
 
 
