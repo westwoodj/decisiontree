@@ -57,8 +57,7 @@ clf = tree.DecisionTreeClassifier(criterion='entropy', min_samples_split=2, min_
 
 #   https://scikit-learn.org/stable/auto_examples/tree/plot_cost_complexity_pruning.html#sphx-glr-auto-examples-tree-plot-cost-complexity-pruning-py
 
-print("Tree depth - ", str(clf.get_depth()))
-print("# of leaves - ", str(clf.get_n_leaves()))
+
 path = clf.cost_complexity_pruning_path(X, y)
 ccp_alphas, impurities = path.ccp_alphas, path.impurities
 fig, ax = plt.subplots()
@@ -115,7 +114,10 @@ ax.legend()
 
 
 # ------------------------ PLOT DECISION SPACE -------------------------
-clf = tree.DecisionTreeClassifier(criterion='entropy', min_samples_split=2, min_samples_leaf=1, max_depth=None).fit(X, y)
+optimal_alpha = 0 # decide this off of pruning data
+clf = tree.DecisionTreeClassifier(criterion='entropy', ccp_alpha=optimal_alpha).fit(X, y)
+print("Tree depth - ", str(clf.get_depth()))
+print("# of leaves - ", str(clf.get_n_leaves()))
 plt.figure()
 Xarr = X.to_numpy()
 #print(Xarr)
@@ -138,7 +140,7 @@ for index, instance in pred.iterrows():
         pred.iat[index, len(pred.columns)-1] = 2
 results = pred.to_numpy()
 predres = pred['Decision'].to_numpy()
-print(results)
+#print(results)
 #print(results.shape)
 plt.xlabel('X coordinate')
 plt.ylabel('Y coordinate')
